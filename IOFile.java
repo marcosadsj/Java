@@ -1,7 +1,6 @@
 public class IOFile
 {
     private final String fileName = "Example.txt";
-    private OutputStreamWriter file = null;
 
     public IOFile(String fileName)
     {
@@ -11,7 +10,7 @@ public class IOFile
     public void createFile()
     {
     	try{
-        	file = new OutputStreamWriter(openFileOutput(file_name, Context.MODE_PRIVATE));
+        	private OutputStreamWriter file = new OutputStreamWriter(openFileOutput(file_name, Context.MODE_PRIVATE));
         }catch (FileNotFoundException e) {
             e.printStackTrace();
         }catch (IOException e){
