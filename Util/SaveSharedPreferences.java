@@ -9,11 +9,11 @@ public class SaveSharedPreferences{
 		this.fileName = fileName;
 
 		sharedPreferences = getSharedPreferences(fileName, 0);
-        editor = sharedPreferences.edit();
+    	editor = sharedPreferences.edit();
 	}
 
 	public WriteTextToCommit(String key, String text){
 		editor.putString(key, text);
-        editor.commit();
+    	editor.commit();
 	}
 }
