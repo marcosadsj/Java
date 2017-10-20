@@ -16,7 +16,7 @@ public class IOFile
         }catch (IOException e){
             e.printStackTrace();
     	}
-	}
+    }
 
     public void writeFile(String text) {
 
@@ -28,7 +28,7 @@ public class IOFile
         }catch (IOException e){
             e.printStackTrace();
         }
-	}
+    }
 
     public String readFile() {
         String result = "";
