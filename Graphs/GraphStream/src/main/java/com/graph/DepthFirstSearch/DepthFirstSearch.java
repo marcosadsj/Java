@@ -1,60 +1,54 @@
 package com.graph.DepthFirstSearch;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.graph.Node;
 
 public class DepthFirstSearch {
-
-	private static Graph graph;
-	private static ReadFile readFile;
 	
-	public static void main(String[] args) {
+	private Graph graph;
+	private Queue<Node> queue;
+	
+	public DepthFirstSearch(Graph graph) {
+		this.graph = graph;
+	}
+	
+	public void search() {
 		
-		graph = new SingleGraph("Facebook");
-				
-		readFile = new ReadFile();
+		for(Node node : graph.getEachNode()) {
+			node.addAttribute("ui.color", "white");
+		}
 		
-        System.setProperty("org.graphstream.ui.render", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-
-		addNodes();
-		
-		addEdges();
+		for(Node node : graph.getEachNode()) {
+			queue = null;
 			
-		graph.display(true);
-        
+			if(node.getAttribute("ui.color") == "white") {
+				queue = new LinkedList<Node>();
+				depthFirstSearch(node, queue);
+			}
+		}
 	}
 	
-	public static void addNodes() {
+	private void depthFirstSearch(Node node, Queue<Node> queue) {
+		queue.add(node);
+		node.addAttribute("ui.color", "grey");
 		
-		String nodeName;
-				
-		while((nodeName = readFile.readLineNodes()) != null) {
-			System.out.println(nodeName);
-			graph.addNode(nodeName); 
+		Iterator<Node> neighborNode = node.getNeighborNodeIterator();
+		
+		while(neighborNode.hasNext()) {
+			Node nextNode = neighborNode.next();
+			
+			if(nextNode.getAttribute("ui.color") != "red" 
+					&& nextNode.getAttribute("ui.color") != "grey") {
+				nextNode.addAttribute("ui.color", "grey");
+				depthFirstSearch(nextNode, queue);
+			}
 		}
 		
-		readFile.closeFileNode();
-	}
-	
-	public static void addEdges() {
-		
-		String edge[] = null;
-		
-		while((edge = readFile.readLineEdges()) != null) {
-			System.out.println(edge[0]+"-"+edge[1]);
-			graph.addEdge(edge[0]+"-"+edge[1], edge[0], edge[1]);
-		}
-		
-		readFile.closeFileEdge();
-	}
-	
-	public static void smallWorld()
-	{
-		
-	}
-	
-	public static void deepSearch()
-	{
-		
+		queue.remove(node);
+		node.addAttribute("ui.color", "red");
 	}
 }
