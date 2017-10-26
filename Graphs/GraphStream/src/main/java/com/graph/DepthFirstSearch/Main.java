@@ -3,20 +3,20 @@ package com.graph.DepthFirstSearch;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
+
 public class Main {
 
 	private static Graph graph;
 	private static ReadFile readFile;
+
 	
 	public static void main(String[] args) {
 		
+		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+
 		graph = new SingleGraph("Facebook");
 				
 		readFile = new ReadFile();
-		
-        System.setProperty("org.graphstream.ui.render", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
-
-        graph.addAttribute("ui.quality");
                 
 		addNodes();
 		
@@ -26,7 +26,12 @@ public class Main {
 		
 		depthFirstSearch.search();
 		
-		graph.display(true);
+		depthFirstSearch.displayMinimumSpanningTree();
+				
+		graph.addAttribute("ui.quality");
+
+		graph.display();	
+				
 	}
 	
 	public static void addNodes() {
