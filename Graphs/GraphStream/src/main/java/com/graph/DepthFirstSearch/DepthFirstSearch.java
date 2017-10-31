@@ -19,16 +19,12 @@ public class DepthFirstSearch {
 	public DepthFirstSearch(Graph graph) {
 		
 		this.graph = graph;
-
 		graphOfHighestComponent = new SingleGraph("HighestComponent");
-
 	}
 	
 	public void search() {
 
-		
 		for(Node node : graph.getEachNode()) {
-			
 			node.addAttribute("ui.color", "white");
 			node.addAttribute("ui.style", "fill-color: white;");
 		}
@@ -44,7 +40,6 @@ public class DepthFirstSearch {
 				queue = new LinkedList<Node>();
 				
 				depthFirstSearch(node, queue, subgraphComponent);
-
 			}
 		}
 				
@@ -55,7 +50,9 @@ public class DepthFirstSearch {
 		queue.add(currentNode);
 		
 		try {
+			
 			subGraphComponent.addNode(currentNode.getId());
+			
 		}catch(Exception e) {
 			
 		}
@@ -88,25 +85,26 @@ public class DepthFirstSearch {
 				depthFirstSearch(nextNode, queue, subGraphComponent);
 			}		
 		}
-		
+			
 		checkTheHighestSubGraph(subGraphComponent);
 
 		queue.remove(currentNode);
 		
 		currentNode.addAttribute("ui.color", "black");
 		currentNode.addAttribute("ui.style", "fill-color: black;");
+		
 	}
 	
 	private void checkTheHighestSubGraph(Graph subGraph) {
-		if(subGraph.getNodeCount() > graphOfHighestComponent.getNodeCount()) {
+		if(subGraph.getNodeCount() >= graphOfHighestComponent.getNodeCount()) {
 			graphOfHighestComponent = subGraph;
 		}
 	}
 	
-	public Viewer displayMinimumSpanningTree() {
+	public Graph minimumSpanningTree() {
 	
 		graphOfHighestComponent.addAttribute("ui.quality");
 
-        return graphOfHighestComponent.display();
+        return graphOfHighestComponent;
 	}
 }

@@ -3,6 +3,8 @@ package com.graph.DepthFirstSearch;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
+import com.graph.SmallWorld.SmallWorld;
+
 
 public class Main {
 
@@ -26,12 +28,16 @@ public class Main {
 		
 		depthFirstSearch.search();
 		
-		depthFirstSearch.displayMinimumSpanningTree();
+		//depthFirstSearch.minimumSpanningTree().display();
 				
-		graph.addAttribute("ui.quality");
+		//graph.addAttribute("ui.quality");
 
-		graph.display();	
-				
+		//graph.display();
+		
+		SmallWorld smallWorld = new SmallWorld(depthFirstSearch.minimumSpanningTree());
+		
+		System.out.println(smallWorld.getAverageGeodeticsDistances());
+						
 	}
 	
 	public static void addNodes() {
