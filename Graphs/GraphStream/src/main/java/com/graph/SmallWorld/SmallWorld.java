@@ -37,25 +37,26 @@ public class SmallWorld {
 	
 	public float getAverageGeodeticsDistances() {
 		
-		int sumGeodetics = 0;
+		float average = 0;
 		
+		int sumGeodetics = 0;
+
 		int maxNodes = graph.getNodeCount();
 		
 		for(int root = 0; root < maxNodes; root++){
 			
 			sumGeodetics += calcule(breadthFirstSearch.search(root));
 		}
-		float average = 0;
 
 		try {
+			
 			average = (1/(0.5f * maxNodes * (maxNodes + 1))) * sumGeodetics;
-		}catch(Exception e)
-		{
+			
+		}catch(Exception e){
+			
 			e.printStackTrace();
 		}
-		System.out.println("average: " + average);
 
 		return average;
 	}
-	
 }
