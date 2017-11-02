@@ -1,8 +1,11 @@
 package com.graph.DepthFirstSearch;
 
+import javax.swing.JOptionPane;
+
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.SingleGraph;
 
+import com.graph.MajorSubGraphGenerator.MajorSubgraphGenerator;
 import com.graph.SmallWorld.SmallWorld;
 
 
@@ -24,19 +27,28 @@ public class Main {
 		
 		addEdges();
 			
-		DepthFirstSearch depthFirstSearch = new DepthFirstSearch(graph);
-		
-		depthFirstSearch.search();
-		
-		//depthFirstSearch.minimumSpanningTree().display();
-				
-		//graph.addAttribute("ui.quality");
+		//DepthFirstSearch depthFirstSearch = new DepthFirstSearch(graph);
 
-		//graph.display();
+		MajorSubgraphGenerator majorSubgraphGenerator= new MajorSubgraphGenerator(graph);
 		
-		SmallWorld smallWorld = new SmallWorld(depthFirstSearch.minimumSpanningTree());
+		majorSubgraphGenerator.search();
 		
-		System.out.println(smallWorld.getAverageGeodeticsDistances());
+		majorSubgraphGenerator.getMajorSubgraph().display();
+		
+		//depthFirstSearch.search();
+		
+		//JOptionPane.showMessageDialog(null, depthFirstSearch.getMinimumSpanningTree().getNodeCount() + 
+		//									"\n" + depthFirstSearch.getMinimumSpanningTree().getEdgeCount());
+
+		//depthFirstSearch.getMinimumSpanningTree().display();
+				
+		graph.addAttribute("ui.quality");
+
+		graph.display();
+		
+		//SmallWorld smallWorld = new SmallWorld(depthFirstSearch.getMinimumSpanningTree());
+		
+		//System.out.println(smallWorld.getAverageGeodeticsDistances());
 						
 	}
 	
@@ -63,5 +75,4 @@ public class Main {
 		
 		readFile.closeFileEdge();
 	}
-	
 }

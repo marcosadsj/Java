@@ -12,6 +12,8 @@ public class BreadthFirstSearch {
 	
 	LinkedList<Node> queueF;
 	
+	int neighborMatrix[][];
+	
 	public BreadthFirstSearch(Graph graph)
 	{
 		this.graph = graph;
@@ -24,22 +26,20 @@ public class BreadthFirstSearch {
 		}
 	}
 	
-	public Graph search(int root){
+	public int search(int root, int desiredLeaf){
 		
 		Node rootNode = graph.getNode(root);
 				
-		int cont = 0;
-		
+		int distance = 0;
+				
 		rootNode.addAttribute("visitated","yes");
 		
-		rootNode.addAttribute("distance", cont);
+		rootNode.addAttribute("distance", 0);
 		
 		queueF.add(rootNode);
 		
 		while(!queueF.isEmpty())
-		{
-			cont++;
-			
+		{			
 			Node neighborNode = queueF.get(0);
 					
 			Iterator<Node> iteratorNeighbor = neighborNode.getNeighborNodeIterator();
@@ -56,7 +56,19 @@ public class BreadthFirstSearch {
 		
 					currentNode.addAttribute("visitated","yes");
 		
-					queueF.add(currentNode);
+					if(!currentNode.equals((graph.getNode(desiredLeaf))))
+					{
+						queueF.add(currentNode);
+						
+						System.out.println("diferentnode");
+
+					}else{
+						System.out.println("passou0");
+
+						distance = Integer.parseInt(currentNode.getAttribute("distance").toString());
+						
+						System.out.println("passou1");
+					}
 		
 				}else if(queueF.contains(currentNode)){
 					graph.getEdge(neighborNode.getId() + "-" + currentNode.getId()).addAttribute("visitated","yes");
@@ -64,6 +76,6 @@ public class BreadthFirstSearch {
 			}
 			queueF.remove(neighborNode);
 		}
-		return graph;
+		return distance;
 	}
 }

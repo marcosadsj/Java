@@ -7,14 +7,13 @@ import java.util.Queue;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.view.Viewer;
 
 public class DepthFirstSearch {
 	
 	private Graph graph;
 	private Queue<Node> queue;
 	
-	Graph graphOfHighestComponent;
+	private Graph graphOfHighestComponent;
 	
 	public DepthFirstSearch(Graph graph) {
 		
@@ -31,7 +30,7 @@ public class DepthFirstSearch {
 		
 		for(Node node : graph.getEachNode()) {
 						
-			Graph subgraphComponent = new SingleGraph("MajorComponent");
+			Graph subgraphComponent = new SingleGraph("MinimunSpanningTree");
 
 			queue = null;
 			
@@ -42,16 +41,15 @@ public class DepthFirstSearch {
 				depthFirstSearch(node, queue, subgraphComponent);
 			}
 		}
-				
 	}
 	
-	private void depthFirstSearch(Node currentNode, Queue<Node> queue, Graph subGraphComponent) {
+	private void depthFirstSearch(Node currentNode, Queue<Node> queue, Graph subgraphComponent) {
 		
 		queue.add(currentNode);
 		
 		try {
 			
-			subGraphComponent.addNode(currentNode.getId());
+			subgraphComponent.addNode(currentNode.getId());
 			
 		}catch(Exception e) {
 			
@@ -68,9 +66,9 @@ public class DepthFirstSearch {
 			
 			try {
 			
-				subGraphComponent.addNode(nextNode.getId());
+				subgraphComponent.addNode(nextNode.getId());
 				
-				subGraphComponent.addEdge(currentNode.getId() + "-" + nextNode.getId(), currentNode.getId(), nextNode.getId());
+				subgraphComponent.addEdge(currentNode.getId() + "-" + nextNode.getId(), currentNode.getId(), nextNode.getId());
 
 			}catch(Exception e) {
 				
@@ -82,29 +80,32 @@ public class DepthFirstSearch {
 				nextNode.addAttribute("ui.color", "grey");
 				nextNode.addAttribute("ui.style", "fill-color: grey;");
 
-				depthFirstSearch(nextNode, queue, subGraphComponent);
+				depthFirstSearch(nextNode, queue, subgraphComponent);
 			}		
 		}
 			
-		checkTheHighestSubGraph(subGraphComponent);
+		checkTheHighestSubGraph(subgraphComponent);
 
 		queue.remove(currentNode);
 		
 		currentNode.addAttribute("ui.color", "black");
 		currentNode.addAttribute("ui.style", "fill-color: black;");
-		
 	}
 	
 	private void checkTheHighestSubGraph(Graph subGraph) {
-		if(subGraph.getNodeCount() >= graphOfHighestComponent.getNodeCount()) {
+		if(subGraph.getNodeCount() > graphOfHighestComponent.getNodeCount()) {
 			graphOfHighestComponent = subGraph;
 		}
 	}
 	
-	public Graph minimumSpanningTree() {
+	public Graph getMinimumSpanningTree() {
 	
 		graphOfHighestComponent.addAttribute("ui.quality");
 
         return graphOfHighestComponent;
+	}
+	
+	public Graph getHighestComponent() {
+		return graphOfHighestComponent;
 	}
 }

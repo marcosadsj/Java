@@ -1,11 +1,7 @@
 package com.graph.SmallWorld;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
-
 import com.graph.BreadthFirstSearch.BreadthFirstSearch;
 
 public class SmallWorld {
@@ -22,19 +18,7 @@ public class SmallWorld {
 		breadthFirstSearch = new BreadthFirstSearch(graph);
 	}
 	
-	private int calcule(Graph graphWithDistances) {
 		
-		int cont = 0;
-		
-		Iterator<Node> graphIterator = graphWithDistances.iterator();
-	
-		while(graphIterator.hasNext()){
-			cont += Integer.parseInt(graphIterator.next().getAttribute("distance").toString());
-		}
-		
-		return cont;
-	}
-	
 	public float getAverageGeodeticsDistances() {
 		
 		float average = 0;
@@ -44,8 +28,12 @@ public class SmallWorld {
 		int maxNodes = graph.getNodeCount();
 		
 		for(int root = 0; root < maxNodes; root++){
-			
-			sumGeodetics += calcule(breadthFirstSearch.search(root));
+			for(int j = 0; j < maxNodes; j++){
+				if(root <= j)
+				{
+					sumGeodetics += breadthFirstSearch.search(root, j);
+				}
+			}
 		}
 
 		try {
